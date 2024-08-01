@@ -1,3 +1,5 @@
-#!/bin/bash
-service nginx stop
-curl 0:80 > /path/to/index.html 2>/dev/null && echo "1" || echo " * nginx is not running"
+#!/usr/bin/env bash
+# a Bash script that configures a server to listen to port 80
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+service nginx start
+kill "$(pgrep 'nginx' | head -1)"
