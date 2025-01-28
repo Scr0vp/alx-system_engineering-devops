@@ -25,13 +25,18 @@ def top_ten(subreddit):
     response = requests.get(url, headers=headers, params=params,
                             allow_redirects=False)
 
-    # Check if the response status code indicates a not-found error (404)
-    if response.status_code == 404:
+    # Check if the response status code indicates success
+    if response.status_code != 200:
         print("None")
         return
 
-    # Parse the JSON response and extract the 'data' section
-    results = response.json().get("data", {}).get("children", [])
+    try:
+        # Parse the JSON response
+        results = response.json().get("data", {}).get("children", [])
+    except ValueError:
+        # Handle cases where the response is not valid JSON
+        print("None")
+        return
 
     # Check if results contain valid posts
     if not results:
